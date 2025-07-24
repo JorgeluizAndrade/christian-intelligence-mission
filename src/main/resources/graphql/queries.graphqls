@@ -1,0 +1,12 @@
+type Query  {
+    findTopicById(id: ID!): Topic
+    findAllTopics: [Topic!]!
+}
+
+
+type Mutation {
+    createTopic(topic: CreateTopic!): Topic!
+}
+
+
+

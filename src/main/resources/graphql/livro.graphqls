@@ -1,0 +1,16 @@
+type Livro {
+    id: ID!,
+    nomeLivro: String!,
+    descLivro: String!,
+    autor: String!,
+    link: String!,
+    topico: Topic!
+}
+
+
+input CreateLivro {
+    nomeLivro: String!,
+    descLivro: String!,
+    autor: String!,
+    link: String!,
+}

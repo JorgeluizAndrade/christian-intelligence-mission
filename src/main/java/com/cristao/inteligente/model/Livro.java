@@ -6,6 +6,7 @@ import jakarta.persistence.*;
 @Entity
 public class Livro {
 
+    @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 

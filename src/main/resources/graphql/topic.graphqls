@@ -1,0 +1,16 @@
+type Topic {
+    id: ID!,
+    nome: String!,
+    descTopic: String!,
+    topicoPai: Topic,
+    filhos: [Topic!],
+    livros: [Livro!]
+}
+
+input CreateTopic {
+    nome: String!
+    descTopic: String!
+    idTopicoPai: ID
+    livros: [CreateLivro!]
+}
+
