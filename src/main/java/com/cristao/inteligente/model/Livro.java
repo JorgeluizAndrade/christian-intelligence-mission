@@ -2,8 +2,10 @@ package com.cristao.inteligente.model;
 
 
 import jakarta.persistence.*;
+import lombok.Data;
 
 @Entity
+@Data
 public class Livro {
 
     @Id

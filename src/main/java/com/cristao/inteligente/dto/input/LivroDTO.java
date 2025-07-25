@@ -1,5 +1,9 @@
 package com.cristao.inteligente.dto.input;
 
+
+import lombok.Data;
+
+@Data
 public class LivroDTO {
 
     private String nomeLivro;

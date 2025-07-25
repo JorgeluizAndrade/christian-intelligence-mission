@@ -10,7 +10,8 @@ type Topic {
 input CreateTopic {
     nome: String!
     descTopic: String!
-    idTopicoPai: ID
+    topicpai: ID
+    filhos: [CreateTopic!]
     livros: [CreateLivro!]
 }
 
