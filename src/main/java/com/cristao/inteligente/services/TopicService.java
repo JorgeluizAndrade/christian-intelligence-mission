@@ -22,11 +22,11 @@ public class TopicService {
     @Autowired
     private LivroRepository livroRepository;
 
-    public Topic findTopicOrElseThrow(Integer id) {
+    public Topic findTopicOrElseThrow(Long id) {
         return this.topicRepository.findById(id).orElseThrow(() -> new RuntimeException("Topic com: " + id + " não encontrado"));
     }
 
-    private Livro findLivroOrElseThrow(Integer id) {
+    private Livro findLivroOrElseThrow(Long id) {
         return this.livroRepository.findById(id).orElseThrow(() -> new RuntimeException("Livro com: " + id + "  não encontrado"));
     }
 

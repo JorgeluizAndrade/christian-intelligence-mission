@@ -11,7 +11,7 @@ private String nome;
 
 private String descTopic;
 
-private Integer topicpai;
+private Long topicpai;
 
 
 private List<TopicDTO> filhos;

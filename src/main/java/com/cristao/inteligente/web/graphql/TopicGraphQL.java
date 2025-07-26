@@ -26,7 +26,7 @@ public class TopicGraphQL {
     }
 
     @QueryMapping
-    public Topic findTopicById(@Argument Integer id) {
+    public Topic findTopicById(@Argument Long id) {
         return topicService.findTopicOrElseThrow(id);
     }
 
