@@ -32,6 +32,6 @@ public class Topic {
     private TopicEnum tipo;
 
     @OneToMany(mappedBy = "topico", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Livro> livros = new ArrayList<>();
+    private List<Conteudo> conteudos = new ArrayList<>();
 
 }

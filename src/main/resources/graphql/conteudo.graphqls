@@ -1,0 +1,29 @@
+enum TipoConteudo {
+    LIVRO
+    VIDEO
+    SERMAO
+    PREGACAO
+    ARTIGO
+    OUTRO
+}
+
+
+type Conteudo {
+    id: ID!
+    titulo: String!
+    descricao: String
+    autor: String!
+    link: String!
+    tipo: TipoConteudo!
+    topico: Topic!
+}
+
+
+input CreateConteudo {
+    titulo: String!
+    descricao: String
+    autor: String!
+    link: String!
+    tipo: TipoConteudo!
+}
+

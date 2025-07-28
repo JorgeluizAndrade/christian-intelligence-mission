@@ -1,12 +1,12 @@
 package com.cristao.inteligente.services;
 
 
-import com.cristao.inteligente.dto.input.LivroDTO;
+import com.cristao.inteligente.dto.input.ConteudoDTO;
 import com.cristao.inteligente.dto.input.TopicDTO;
-import com.cristao.inteligente.model.Livro;
+import com.cristao.inteligente.model.Conteudo;
 import com.cristao.inteligente.model.Topic;
 import com.cristao.inteligente.model.TopicEnum;
-import com.cristao.inteligente.repositories.LivroRepository;
+import com.cristao.inteligente.repositories.ConteudoRepository;
 import com.cristao.inteligente.repositories.TopicRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,7 +21,7 @@ public class TopicService {
     private TopicRepository topicRepository;
 
     @Autowired
-    private LivroRepository livroRepository;
+    private ConteudoRepository conteudoRepository;
 
     private static List<Topic> getTopicFilho(Topic topic, TopicDTO dto) {
         List<Topic> filhos = new ArrayList<>();
@@ -39,24 +39,24 @@ public class TopicService {
         return filhos;
     }
 
-    private static List<Livro> getLivros(Topic topic, TopicDTO dto) {
-        List<Livro> livros = new ArrayList<>();
+    private static List<Conteudo> getConteudos(Topic topic, TopicDTO dto) {
+        List<Conteudo> conteudos = new ArrayList<>();
 
-        if (dto.getLivros() != null) {
-            for (LivroDTO livroInput : dto.getLivros()) {
-                Livro createLivro = new Livro();
-                createLivro.setNomeLivro(livroInput.getNomeLivro());
-                createLivro.setDescLivro(livroInput.getDescLivro());
-                createLivro.setAutor(livroInput.getAutor());
-                createLivro.setLink(livroInput.getLink());
-                createLivro.setTopico(topic);
-                livros.add(createLivro);
+        if (dto.getConteudos() != null) {
+            for (ConteudoDTO conteudoInput : dto.getConteudos()) {
+                Conteudo conteudo = new Conteudo();
+                conteudo.setTitulo(conteudoInput.getTitulo());
+                conteudo.setDescricao(conteudoInput.getDescricao());
+                conteudo.setAutor(conteudoInput.getAutor());
+                conteudo.setLink(conteudoInput.getLink());
+                conteudo.setTipo(conteudoInput.getTipo());
+                conteudo.setTopico(topic);
+                conteudos.add(conteudo);
             }
         }
-        topic.setLivros(livros);
 
-        return livros;
-
+        topic.setConteudos(conteudos);
+        return conteudos;
     }
 
     public Topic findTopicOrElseThrow(Long id) {
@@ -89,9 +89,9 @@ public class TopicService {
 
         typeTopicAndTopicPai(topic, input.getTopicpai());
 
-        List<Livro> livros = getLivros(topic, input);
+        List<Conteudo> conteudos = getConteudos(topic, input);
 
-        topic.setLivros(livros);
+        topic.setConteudos(conteudos);
 
         List<Topic> filhos = getTopicFilho(topic, input);
 
