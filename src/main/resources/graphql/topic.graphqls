@@ -1,9 +1,15 @@
+enum TopicType {
+    TOPIC_PAI
+    TOPIC_FILHO
+}
+
 type Topic {
     id: ID!,
     nome: String!,
     descTopic: String!,
     topicoPai: Topic,
     filhos: [Topic!],
+    tipo: TopicType
     livros: [Livro!]
 }
 

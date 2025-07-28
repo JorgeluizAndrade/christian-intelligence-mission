@@ -5,6 +5,7 @@ import com.cristao.inteligente.dto.input.LivroDTO;
 import com.cristao.inteligente.dto.input.TopicDTO;
 import com.cristao.inteligente.model.Livro;
 import com.cristao.inteligente.model.Topic;
+import com.cristao.inteligente.model.TopicEnum;
 import com.cristao.inteligente.repositories.LivroRepository;
 import com.cristao.inteligente.repositories.TopicRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,14 +36,11 @@ public class TopicService {
         return topicRepository.findAll();
     }
 
-//    public Optional<Topic> findTopicById(Integer id) {
-//        return topicRepository.findById(id);
-//    }
-
-
-
     public Topic createTopic(TopicDTO input) {
         Topic topic = new Topic();
+
+        TopicEnum filhoenum = TopicEnum.TOPIC_FILHO;
+        TopicEnum pai = TopicEnum.TOPIC_PAI;
 
         topic.setNome(input.getNome());
         topic.setDescTopic(input.getDescTopic());
@@ -50,8 +48,12 @@ public class TopicService {
         if (input.getTopicpai() != null) {
             var topicPai = findTopicOrElseThrow(input.getTopicpai());
             topic.setTopicoPai(topicPai);
+            topic.setTipo(filhoenum);
         }
 
+        if(topic.getTopicoPai() == null){
+            topic.setTipo(pai);
+        }
 
         List<Livro> livros = new ArrayList<>();
 
@@ -77,6 +79,7 @@ public class TopicService {
                 filho.setNome(filhoInput.getNome());
                 filho.setDescTopic(filhoInput.getDescTopic());
                 filho.setTopicoPai(topic); // importante: pai é o topic atual
+                topic.setTipo(filhoenum);
                 filhos.add(filho);
             }
         }
@@ -84,5 +87,7 @@ public class TopicService {
 
         return topicRepository.save(topic);
     }
-
 }
+
+
+

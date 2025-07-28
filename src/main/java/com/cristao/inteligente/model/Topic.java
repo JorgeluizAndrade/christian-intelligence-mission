@@ -28,6 +28,8 @@ public class Topic {
     @OneToMany(mappedBy = "topicoPai", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Topic> filhos = new ArrayList<>(); // muitos filhos pertencem a um pai. um topic pai pode ter varios filhos.
 
+    @Enumerated(EnumType.STRING)
+    private TopicEnum tipo;
 
     @OneToMany(mappedBy = "topico", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Livro> livros = new ArrayList<>();
