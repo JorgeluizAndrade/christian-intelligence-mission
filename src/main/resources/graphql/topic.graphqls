@@ -4,13 +4,13 @@ enum TopicType {
 }
 
 type Topic {
-    id: ID!,
-    nome: String!,
-    descTopic: String!,
-    topicoPai: Topic,
-    filhos: [Topic!],
+    id: ID!
+    nome: String!
+    descTopic: String!
+    topicoPai: Topic
+    filhos: [Topic!]
     tipo: TopicType
-    livros: [Livro!]
+    conteudos: [Conteudo!]!
 }
 
 input CreateTopic {
@@ -18,6 +18,6 @@ input CreateTopic {
     descTopic: String!
     topicpai: ID
     filhos: [CreateTopic!]
-    livros: [CreateLivro!]
+    conteudos: [CreateConteudo!]
 }
 

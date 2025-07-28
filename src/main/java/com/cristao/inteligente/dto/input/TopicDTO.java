@@ -16,6 +16,6 @@ private Long topicpai;
 
 private List<TopicDTO> filhos;
 
-private List<LivroDTO> livros;
+private List<ConteudoDTO> conteudos;
 
 }
