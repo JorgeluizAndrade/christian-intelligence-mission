@@ -23,43 +23,27 @@ public class TopicService {
     @Autowired
     private LivroRepository livroRepository;
 
-    public Topic findTopicOrElseThrow(Long id) {
-        return this.topicRepository.findById(id).orElseThrow(() -> new RuntimeException("Topic com: " + id + " não encontrado"));
-    }
+    private static List<Topic> getTopicFilho(Topic topic, TopicDTO dto) {
+        List<Topic> filhos = new ArrayList<>();
 
-    private Livro findLivroOrElseThrow(Long id) {
-        return this.livroRepository.findById(id).orElseThrow(() -> new RuntimeException("Livro com: " + id + "  não encontrado"));
-    }
-
-
-    public List<Topic> findAllTopics() {
-        return topicRepository.findAll();
-    }
-
-    public Topic createTopic(TopicDTO input) {
-        Topic topic = new Topic();
-
-        TopicEnum filhoenum = TopicEnum.TOPIC_FILHO;
-        TopicEnum pai = TopicEnum.TOPIC_PAI;
-
-        topic.setNome(input.getNome());
-        topic.setDescTopic(input.getDescTopic());
-
-        if (input.getTopicpai() != null) {
-            var topicPai = findTopicOrElseThrow(input.getTopicpai());
-            topic.setTopicoPai(topicPai);
-            topic.setTipo(filhoenum);
+        if (dto.getFilhos() != null) {
+            for (TopicDTO filhoInput : dto.getFilhos()) {
+                Topic filho = new Topic();
+                filho.setNome(filhoInput.getNome());
+                filho.setDescTopic(filhoInput.getDescTopic());
+                filho.setTopicoPai(topic); // importante: pai é o topic atual
+                topic.setTipo(TopicEnum.TOPIC_FILHO);
+                filhos.add(filho);
+            }
         }
+        return filhos;
+    }
 
-        if(topic.getTopicoPai() == null){
-            topic.setTipo(pai);
-        }
-
+    private static List<Livro> getLivros(Topic topic, TopicDTO dto) {
         List<Livro> livros = new ArrayList<>();
 
-
-        if (input.getLivros() != null) {
-            for (LivroDTO livroInput : input.getLivros()) {
+        if (dto.getLivros() != null) {
+            for (LivroDTO livroInput : dto.getLivros()) {
                 Livro createLivro = new Livro();
                 createLivro.setNomeLivro(livroInput.getNomeLivro());
                 createLivro.setDescLivro(livroInput.getDescLivro());
@@ -71,18 +55,46 @@ public class TopicService {
         }
         topic.setLivros(livros);
 
-        List<Topic> filhos = new ArrayList<>();
+        return livros;
 
-        if (input.getFilhos() != null) {
-            for (TopicDTO filhoInput : input.getFilhos()) {
-                Topic filho = new Topic();
-                filho.setNome(filhoInput.getNome());
-                filho.setDescTopic(filhoInput.getDescTopic());
-                filho.setTopicoPai(topic); // importante: pai é o topic atual
-                topic.setTipo(filhoenum);
-                filhos.add(filho);
-            }
+    }
+
+    public Topic findTopicOrElseThrow(Long id) {
+        return this.topicRepository.findById(id).orElseThrow(() -> new RuntimeException("Topic com: " + id + " não encontrado"));
+    }
+
+    private void typeTopicAndTopicPai(Topic topic, Long id) {
+        TopicEnum filho = TopicEnum.TOPIC_FILHO;
+        TopicEnum pai = TopicEnum.TOPIC_PAI;
+
+        if (id != null) {
+            var topicPai = findTopicOrElseThrow(id);
+            topic.setTopicoPai(topicPai);
+            topic.setTipo(filho);
+        } else {
+            topic.setTipo(pai);
         }
+
+    }
+
+    public List<Topic> findAllTopics() {
+        return topicRepository.findAll();
+    }
+
+    public Topic createTopic(TopicDTO input) {
+        Topic topic = new Topic();
+
+        topic.setNome(input.getNome());
+        topic.setDescTopic(input.getDescTopic());
+
+        typeTopicAndTopicPai(topic, input.getTopicpai());
+
+        List<Livro> livros = getLivros(topic, input);
+
+        topic.setLivros(livros);
+
+        List<Topic> filhos = getTopicFilho(topic, input);
+
         topic.setFilhos(filhos);
 
         return topicRepository.save(topic);
