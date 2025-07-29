@@ -1,5 +1,5 @@
 CREATE TABLE topic (
-    id BIGINT PRIMARY KEY AUTO_INCREMENT,
+    id SERIAL PRIMARY KEY,
     topic_nome VARCHAR(50) NOT NULL,
     topic_desc VARCHAR(155) NOT NULL,
     topico_pai_id BIGINT,
@@ -8,7 +8,7 @@ CREATE TABLE topic (
 );
 
 CREATE TABLE conteudo (
-    id BIGINT PRIMARY KEY AUTO_INCREMENT,
+    id SERIAL PRIMARY KEY, -- substitui AUTO_INCREMENT
     titulo VARCHAR(40) NOT NULL,
     descricao VARCHAR(140),
     autor VARCHAR(30) NOT NULL,

@@ -15,7 +15,7 @@ public class Topic {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "topic_autor", nullable = false, insertable = true)
+    @Column(name = "topic_autor", nullable = false)
     private String autor;
 
     @Column(name = "topic_nome", nullable = false)
