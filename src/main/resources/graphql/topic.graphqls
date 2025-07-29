@@ -5,6 +5,7 @@ enum TopicType {
 
 type Topic {
     id: ID!
+    autor: String!
     nome: String!
     descTopic: String!
     topicoPai: Topic
@@ -14,6 +15,7 @@ type Topic {
 }
 
 input CreateTopic {
+    autor: String!
     nome: String!
     descTopic: String!
     topicpai: ID

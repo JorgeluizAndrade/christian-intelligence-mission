@@ -84,8 +84,11 @@ public class TopicService {
     public Topic createTopic(TopicDTO input) {
         Topic topic = new Topic();
 
+        topic.setAutor(input.getAutor());
+
         topic.setNome(input.getNome());
         topic.setDescTopic(input.getDescTopic());
+
 
         typeTopicAndTopicPai(topic, input.getTopicpai());
 

@@ -9,6 +9,8 @@ import java.util.List;
 public class TopicDTO {
 private String nome;
 
+private String autor;
+
 private String descTopic;
 
 private Long topicpai;
