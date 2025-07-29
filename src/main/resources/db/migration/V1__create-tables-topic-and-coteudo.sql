@@ -8,7 +8,7 @@ CREATE TABLE topic (
 );
 
 CREATE TABLE conteudo (
-    id SERIAL PRIMARY KEY, -- substitui AUTO_INCREMENT
+    id SERIAL PRIMARY KEY, 
     titulo VARCHAR(40) NOT NULL,
     descricao VARCHAR(140),
     autor VARCHAR(30) NOT NULL,
