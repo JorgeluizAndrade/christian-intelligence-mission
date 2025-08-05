@@ -7,5 +7,4 @@ public enum TipoConteudo {
     PREGACAO,
     ARTIGO,
     OUTRO
-
 }

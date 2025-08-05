@@ -15,7 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class TopicService {
+public class TopicService implements ITopicService {
 
     @Autowired
     private TopicRepository topicRepository;
@@ -82,12 +82,12 @@ public class TopicService {
     }
 
     public Topic createTopic(TopicDTO input) {
-        Topic topic = new Topic();
 
-        topic.setAutor(input.getAutor());
-
-        topic.setNome(input.getNome());
-        topic.setDescTopic(input.getDescTopic());
+        Topic topic = new Topic(
+                input.getAutor(),
+                input.getNome(),
+                input.getDescTopic()
+        );
 
 
         typeTopicAndTopicPai(topic, input.getTopicpai());
@@ -95,10 +95,12 @@ public class TopicService {
         List<Conteudo> conteudos = getConteudos(topic, input);
 
         topic.setConteudos(conteudos);
+        conteudos.forEach(c -> c.setTopico(topic));
 
         List<Topic> filhos = getTopicFilho(topic, input);
 
         topic.setFilhos(filhos);
+
 
         return topicRepository.save(topic);
     }

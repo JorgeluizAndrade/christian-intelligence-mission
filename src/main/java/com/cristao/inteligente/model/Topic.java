@@ -37,4 +37,22 @@ public class Topic {
     @OneToMany(mappedBy = "topico", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Conteudo> conteudos = new ArrayList<>();
 
+    public Topic() {
+    }
+
+    public Topic(String autor, String nome, String descTopic) {
+        if (autor == null || autor.length() < 3) {
+            throw new IllegalArgumentException("Nome Autor inválido.");
+        }
+        if (nome == null || nome.length() < 5) {
+            throw new IllegalArgumentException("Nome Topic inválido.");
+        }
+        if (descTopic == null || descTopic.length() < 20) {
+            throw new IllegalArgumentException("Descrição topic inválida.");
+        }
+
+        this.autor = autor;
+        this.nome = nome;
+        this.descTopic = descTopic;
+    }
 }
