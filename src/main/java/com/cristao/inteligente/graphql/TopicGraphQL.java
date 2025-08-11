@@ -1,4 +1,4 @@
-package com.cristao.inteligente.web.graphql;
+package com.cristao.inteligente.graphql;
 
 
 import com.cristao.inteligente.dto.input.TopicDTO;
