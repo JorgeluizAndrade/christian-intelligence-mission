@@ -1,4 +1,4 @@
-package com.cristao.inteligente;
+package com.cristao.inteligente.config;
 
 
 import org.springframework.context.annotation.Configuration;

@@ -74,7 +74,6 @@ public class TopicService implements ITopicService {
         } else {
             topic.setTipo(pai);
         }
-
     }
 
     public List<Topic> findAllTopics() {
