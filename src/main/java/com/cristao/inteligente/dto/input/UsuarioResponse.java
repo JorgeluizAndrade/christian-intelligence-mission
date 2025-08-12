@@ -5,7 +5,6 @@ import com.cristao.inteligente.model.Role;
 public record UsuarioResponse(
         Long id,
         String nome,
-        String password,
         String email,
         Role role
 ) {
