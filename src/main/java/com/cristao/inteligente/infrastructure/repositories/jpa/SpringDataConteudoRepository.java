@@ -1,11 +1,10 @@
 package com.cristao.inteligente.infrastructure.repositories.jpa;
 
-import com.cristao.inteligente.infrastructure.repositories.jpa.entity.TopicEntityJPA;
+import com.cristao.inteligente.infrastructure.repositories.jpa.entity.ConteudoEntityJPA;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 
-
 @Repository
-public interface SpringDataTopicRepository extends JpaRepository<TopicEntityJPA, Long> {
+public interface SpringDataConteudoRepository extends JpaRepository<ConteudoEntityJPA, Long> {
 }

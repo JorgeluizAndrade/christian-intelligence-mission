@@ -12,6 +12,19 @@ public class Conteudo {
     private TipoConteudo tipo;
     private Topic topico;
 
+
+    public Conteudo(){
+
+    }
+
+    public Conteudo(String titulo, String descricao, String autor, String link, TipoConteudo tipo) {
+        this.titulo = titulo;
+        this.descricao = descricao;
+        this.autor = autor;
+        this.link = link;
+        this.tipo = tipo;
+    }
+
     // Getters e setters
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }

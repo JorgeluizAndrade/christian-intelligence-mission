@@ -28,16 +28,22 @@ public class TopicJPARepository implements TopicRepository {
     public Topic save(Topic topic) {
         TopicEntityJPA entity = topicMapper.toEntity(topic);
 
-        if (entity.getTopicoPai() != null && entity.getTopicoPai().getId() == null) {
-            TopicEntityJPA savedPai = jpa.save(entity.getTopicoPai());
-            entity.setTopicoPai(savedPai);
+        // Corrigir relações (evitar null em cascade)
+        if (entity.getConteudos() != null) {
+            entity.getConteudos().forEach(c -> c.setTopico(entity));
+        }
+        if (entity.getFilhos() != null) {
+            entity.getFilhos().forEach(f -> f.setTopicoPai(entity));
         }
 
-        entity.getConteudos().forEach(c -> c.setTopico(entity));
+        if (topic.getTopicoPai() != null) {
+            TopicEntityJPA paiEntity = jpa.findById(topic.getTopicoPai().getId())
+                    .orElseThrow(() -> new RuntimeException("Pai não encontrado"));
+            entity.setTopicoPai(paiEntity);
+        }
 
-        TopicEntityJPA created = jpa.save(entity);
-        return topicMapper.toDomain(created);
-
+        TopicEntityJPA saved = jpa.save(entity);
+        return topicMapper.toDomain(saved);
     }
 
     @Override

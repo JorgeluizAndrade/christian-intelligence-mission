@@ -28,7 +28,6 @@ public class ConteudoEntityJPA {
     @Column(name = "tipo_conteudo", nullable = false)
     private TipoConteudo tipo;
 
-
     @ManyToOne
     @JoinColumn(name = "topico_id")
     private TopicEntityJPA topico;
