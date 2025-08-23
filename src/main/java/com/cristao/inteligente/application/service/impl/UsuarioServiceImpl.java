@@ -5,6 +5,8 @@ import com.cristao.inteligente.application.service.IUsuarioService;
 import com.cristao.inteligente.domain.entity.Usuario;
 import com.cristao.inteligente.domain.repository.UsuarioRepository;
 import com.cristao.inteligente.domain.valueobject.Role;
+import com.cristao.inteligente.infrastructure.mapper.UsuarioMapper;
+import com.cristao.inteligente.infrastructure.repositories.jpa.entity.UsuarioEntityJPA;
 import com.cristao.inteligente.shared.dto.UsuarioRequest;
 import com.cristao.inteligente.shared.dto.UsuarioResponse;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +24,9 @@ public class UsuarioServiceImpl implements IUsuarioService, UserDetailsService {
     BCryptPasswordEncoder passwordEncoder;
     @Autowired
     private UsuarioRepository usuarioRepository;
+
+    @Autowired
+    private UsuarioMapper usuarioMapper;
 
     @Override
     public UsuarioResponse createUsuarioAdmin(UsuarioRequest dto) {
@@ -46,13 +51,14 @@ public class UsuarioServiceImpl implements IUsuarioService, UserDetailsService {
 
         user.setRole(role);
 
-        usuarioRepository.save(user);
+        Usuario saved = usuarioRepository.save(user);
+
 
         return new UsuarioResponse(
-                user.getId(),
-                user.getNome(),
-                user.getEmail(),
-                user.getRole()
+                saved.getId(),
+                saved.getNome(),
+                saved.getEmail(),
+                saved.getRole()
         );
 
     }
@@ -65,6 +71,5 @@ public class UsuarioServiceImpl implements IUsuarioService, UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         return usuarioRepository.findByEmail(username);
-
     }
 }

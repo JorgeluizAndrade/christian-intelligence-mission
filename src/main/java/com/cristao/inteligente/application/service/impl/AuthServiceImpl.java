@@ -30,7 +30,7 @@ public class AuthServiceImpl implements IAuthService {
         UsernamePasswordAuthenticationToken usernamePassword = new UsernamePasswordAuthenticationToken(req.getEmail(), req.getPassword());
         Authentication auth = authenticationManager.authenticate(usernamePassword);
 
-        String token = tokenService.generateToken((Usuario) auth.getPrincipal());
+        String token = tokenService.generateToken((UsuarioEntityJPA) auth.getPrincipal());
 
         return new LoginResponse(token);
     }

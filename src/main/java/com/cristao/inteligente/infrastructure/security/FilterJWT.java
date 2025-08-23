@@ -35,6 +35,7 @@ public class FilterJWT extends OncePerRequestFilter {
             String email = tokenService.validateToken(token);
             if (email != null) {
                 UsuarioEntityJPA user = usuarioRepository.findByEmail(email);
+
                 if (user != null) {
                     UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());
                     SecurityContextHolder.getContext().setAuthentication(authentication);

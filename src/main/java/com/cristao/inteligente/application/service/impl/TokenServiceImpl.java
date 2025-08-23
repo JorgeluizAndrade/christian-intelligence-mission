@@ -6,6 +6,7 @@ import com.auth0.jwt.exceptions.JWTCreationException;
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.cristao.inteligente.application.service.ITokenService;
 import com.cristao.inteligente.domain.entity.Usuario;
+import com.cristao.inteligente.infrastructure.repositories.jpa.entity.UsuarioEntityJPA;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -20,7 +21,7 @@ public class TokenServiceImpl implements ITokenService {
     private String secret;
 
     @Override
-    public String generateToken(Usuario usuario) {
+    public String generateToken(UsuarioEntityJPA usuario) {
         try {
             Algorithm algorithm = Algorithm.HMAC256(secret);
 

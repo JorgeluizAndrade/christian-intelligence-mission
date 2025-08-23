@@ -2,7 +2,6 @@ package com.cristao.inteligente.infrastructure.repositories;
 
 import com.cristao.inteligente.domain.entity.Usuario;
 import com.cristao.inteligente.domain.repository.UsuarioRepository;
-import com.cristao.inteligente.infrastructure.mapper.TopicMapper;
 import com.cristao.inteligente.infrastructure.mapper.UsuarioMapper;
 import com.cristao.inteligente.infrastructure.repositories.jpa.SpringDataUsuarioRepository;
 import com.cristao.inteligente.infrastructure.repositories.jpa.entity.UsuarioEntityJPA;
