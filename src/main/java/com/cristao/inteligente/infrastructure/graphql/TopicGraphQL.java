@@ -33,7 +33,7 @@ public class TopicGraphQL {
     }
 
 
-//    @PreAuthorize("hasRole('ADMIN') or hasRole('COLABORADOR')")
+    @PreAuthorize("hasRole('ADMIN') or hasRole('COLABORADOR')")
     @MutationMapping
     public Topic createTopic(@Argument TopicDTO topic) {
         return topicService.createTopic(topic);
