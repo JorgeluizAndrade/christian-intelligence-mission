@@ -19,6 +19,6 @@ public class JwtProperties {
     private String secret;
     private long accessTokenExpirationMs = 900_000L;
     private long refreshTokenExpirationMs = 604_800_000L;
-    private boolean cookieSecure = false;
+    private boolean cookieSecure = true;
     private String cookieSameSite = "Strict";
 }

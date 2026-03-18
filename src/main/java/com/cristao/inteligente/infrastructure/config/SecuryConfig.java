@@ -29,6 +29,8 @@ public class SecuryConfig {
                 .authorizeHttpRequests(authz -> authz.requestMatchers(HttpMethod.POST, "/user/admin").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.POST, "/user/colaborador").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.POST, "/user/login").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/user/refresh").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/user/logout").permitAll()
                         .anyRequest().permitAll()
                 )
                 .addFilterBefore(filterJWT, UsernamePasswordAuthenticationFilter.class).build();
