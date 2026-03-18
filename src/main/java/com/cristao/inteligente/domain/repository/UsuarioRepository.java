@@ -10,5 +10,5 @@ import java.util.Optional;
 public interface UsuarioRepository {
     Usuario save(Usuario usuario);
     Optional<Usuario> findById(Long id);
-    UsuarioEntityJPA findByEmail(String email);
+    Optional<UsuarioEntityJPA> findByEmail(String email);
 }

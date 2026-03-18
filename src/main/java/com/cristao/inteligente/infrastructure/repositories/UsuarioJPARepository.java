@@ -36,7 +36,7 @@ public class UsuarioJPARepository implements UsuarioRepository {
     }
 
     @Override
-    public UsuarioEntityJPA findByEmail(String email) {
+    public Optional<UsuarioEntityJPA> findByEmail(String email) {
         return usuarioRepository.findByEmail(email);
     }
 

@@ -1,10 +1,20 @@
 package com.cristao.inteligente.application.service;
 
+
 import com.cristao.inteligente.domain.entity.Usuario;
-import com.cristao.inteligente.infrastructure.repositories.jpa.entity.UsuarioEntityJPA;
+
 
 public interface ITokenService {
-    public String generateToken(UsuarioEntityJPA usuario);
+    public String generateToken(Usuario usuario);
 
-    public String validateToken(String token);
+    public boolean isTokenValid(String token);
+    
+    public String generateRefreshToken(String email);
+       
+    public String extractEmail(String token);
+    
+    public String extractRole(String token);
+
+  
+
 }

@@ -1,59 +1,55 @@
 package com.cristao.inteligente.infrastructure.security;
 
-import com.cristao.inteligente.domain.repository.UsuarioRepository;
-import com.cristao.inteligente.infrastructure.repositories.jpa.entity.UsuarioEntityJPA;
-import com.cristao.inteligente.infrastructure.repositories.UsuarioJPARepository;
 import com.cristao.inteligente.application.service.ITokenService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
-
+import java.util.Arrays;
+import java.util.List;
+import java.util.Optional;
 
 @Component
 public class FilterJWT extends OncePerRequestFilter {
+	static final String ACCESS_TOKEN_COOKIE = "access_token";
 
-    @Autowired
-    private UsuarioRepository usuarioRepository;
+	@Autowired
+	private ITokenService tokenService;
 
-    @Autowired
-    private ITokenService tokenService;
+	@Override
+	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
+			throws ServletException, IOException {
 
-    @Override
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
-            throws ServletException, IOException {
-        String token = this.recoverToken(request);
+		extractTokenFromCookie(request).filter(tokenService::isTokenValid).ifPresent(t -> {
+			var email = tokenService.extractEmail(t);
 
-        if (token != null) {
-            String email = tokenService.validateToken(token);
-            if (email != null) {
-                UsuarioEntityJPA user = usuarioRepository.findByEmail(email);
+			String role = tokenService.extractRole(t);
 
-                if (user != null) {
-                    UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());
-                    SecurityContextHolder.getContext().setAuthentication(authentication);
-                } else {
-                    throw new RuntimeException("User not found with email: " + email);
-                }
-            } else {
-                throw new RuntimeException("Token is invalid or expired");
-            }
-        }
-        filterChain.doFilter(request, response);
-    }
+			var auth = new UsernamePasswordAuthenticationToken(email, null,
+					List.of(new SimpleGrantedAuthority("ROLE_" + role)));
 
-    private String recoverToken(HttpServletRequest request) {
-        var authHeader = request.getHeader("Authorization");
-        if (authHeader == null)
-            return null;
-        return authHeader.replace("Bearer ", "");
-    }
+			SecurityContextHolder.getContext().setAuthentication(auth);
+
+		}
+
+		);
+
+	}
+
+	private Optional<String> extractTokenFromCookie(HttpServletRequest request) {
+		if (request.getCookies() == null)
+			return Optional.empty();
+		return Arrays.stream(request.getCookies()).filter(c -> ACCESS_TOKEN_COOKIE.equals(c.getName()))
+				.map(Cookie::getValue).findFirst();
+	}
 
 }

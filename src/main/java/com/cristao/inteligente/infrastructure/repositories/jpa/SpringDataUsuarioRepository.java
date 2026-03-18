@@ -1,12 +1,15 @@
 package com.cristao.inteligente.infrastructure.repositories.jpa;
 
 import com.cristao.inteligente.infrastructure.repositories.jpa.entity.UsuarioEntityJPA;
+
+import java.util.Optional;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 
 @Repository
 public interface SpringDataUsuarioRepository extends JpaRepository<UsuarioEntityJPA, Long> {
-    UsuarioEntityJPA findByEmail(String email);
+    Optional<UsuarioEntityJPA>findByEmail(String email);
 }
 
