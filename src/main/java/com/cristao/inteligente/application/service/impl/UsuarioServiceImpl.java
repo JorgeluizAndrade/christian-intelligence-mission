@@ -1,6 +1,5 @@
 package com.cristao.inteligente.application.service.impl;
 
-
 import com.cristao.inteligente.application.service.IUsuarioService;
 import com.cristao.inteligente.domain.entity.Usuario;
 import com.cristao.inteligente.domain.repository.UsuarioRepository;
@@ -19,57 +18,53 @@ import org.springframework.stereotype.Service;
 @Service
 public class UsuarioServiceImpl implements IUsuarioService, UserDetailsService {
 
+	@Autowired
+	BCryptPasswordEncoder passwordEncoder;
+	@Autowired
+	private UsuarioRepository usuarioRepository;
 
-    @Autowired
-    BCryptPasswordEncoder passwordEncoder;
-    @Autowired
-    private UsuarioRepository usuarioRepository;
+	@Autowired
+	private UsuarioMapper usuarioMapper;
 
-    @Autowired
-    private UsuarioMapper usuarioMapper;
+	@Override
+	public UsuarioResponse createUsuarioAdmin(UsuarioRequest dto) {
+		return saveUser(dto, Role.ROLE_ADMIN);
+	}
 
-    @Override
-    public UsuarioResponse createUsuarioAdmin(UsuarioRequest dto) {
-        return saveUser(dto, Role.ROLE_ADMIN);
-    }
+	@Override
+	public UsuarioResponse createUsuarioColaborador(UsuarioRequest dto) {
+		return saveUser(dto, Role.ROLE_COLABORADOR);
+	}
 
-    @Override
-    public UsuarioResponse createUsuarioColaborador(UsuarioRequest dto) {
-        return saveUser(dto, Role.ROLE_COLABORADOR);
-    }
+	private UsuarioResponse saveUser(UsuarioRequest dto, Role role) {
+		Usuario user = new Usuario();
 
+		user.setNome(dto.getNome());
+		user.setEmail(dto.getEmail());
 
-    private UsuarioResponse saveUser(UsuarioRequest dto, Role role) {
-        Usuario user = new Usuario();
+		String encryptedPassword = passwordEncoder.encode(dto.getPassword());
 
-        user.setNome(dto.getNome());
-        user.setEmail(dto.getEmail());
+		user.setPassword(encryptedPassword);
 
-        String encryptedPassword = passwordEncoder.encode(dto.getPassword());
+		user.setRole(role);
 
-        user.setPassword(encryptedPassword);
+		Usuario saved = usuarioRepository.save(user);
 
-        user.setRole(role);
+		return new UsuarioResponse(saved.getId(), saved.getNome(), saved.getEmail(), saved.getRole());
 
-        Usuario saved = usuarioRepository.save(user);
+	}
 
+	@Override
+	public UsuarioResponse findUsuarioById(Long id) {
 
-        return new UsuarioResponse(
-                saved.getId(),
-                saved.getNome(),
-                saved.getEmail(),
-                saved.getRole()
-        );
+		var usuario = usuarioRepository.findById(id).orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
 
-    }
+		return usuarioMapper.toResponse(usuario);
+	}
 
-    @Override
-    public Usuario findUsuarioById(Long id) {
-        return usuarioRepository.findById(id).orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
-    }
+	@Override
+	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+		return usuarioRepository.findByEmail(username).get();
 
-    @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        return usuarioRepository.findByEmail(username);
-    }
+	}
 }

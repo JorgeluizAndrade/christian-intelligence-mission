@@ -10,5 +10,5 @@ public interface IUsuarioService {
 
     public UsuarioResponse createUsuarioColaborador(UsuarioRequest dto);
 
-    public Usuario findUsuarioById(Long id);
+    public UsuarioResponse findUsuarioById(Long id);
 }

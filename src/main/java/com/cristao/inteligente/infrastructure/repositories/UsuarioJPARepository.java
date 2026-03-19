@@ -40,6 +40,7 @@ public class UsuarioJPARepository implements UsuarioRepository {
         return usuarioRepository.findByEmail(email);
     }
 
+	
 
 
 

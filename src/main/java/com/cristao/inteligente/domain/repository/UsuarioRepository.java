@@ -11,4 +11,6 @@ public interface UsuarioRepository {
     Usuario save(Usuario usuario);
     Optional<Usuario> findById(Long id);
     Optional<UsuarioEntityJPA> findByEmail(String email);
+
+    
 }
